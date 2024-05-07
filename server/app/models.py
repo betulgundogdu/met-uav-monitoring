@@ -6,7 +6,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True)
     password_hash = db.Column(db.String(100))
-    tasks = db.relationship("Task", back_populates="user")
+    # tasks = db.relationship("Task", back_populates="user")
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -14,8 +14,8 @@ class Task(db.Model):
     desc = db.Column(db.String(255))
     status = db.Column(db.String(50))
     drones = db.relationship("Drone", secondary="task_drone", backref="tasks")
-    user_id = db.Column(db.ForeignKey("user.id"))
-    user = db.relationship("User", back_populates="tasks")
+    # user_id = db.Column(db.ForeignKey("user.id"))
+    # user = db.relationship("User", back_populates="tasks")
 
     time_created = db.Column(db.DateTime(timezone=True), server_default=func.now())
     time_updated = db.Column(db.DateTime(timezone=True), onupdate=func.now())

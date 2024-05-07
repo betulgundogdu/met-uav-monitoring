@@ -40,7 +40,7 @@ task_model = api.model("Task", {
     "desc": fields.String,
     "status": fields.String,
     "drones": fields.List(fields.Nested(drone_model)),
-    "user_id": fields.Integer,
+    # "user_id": fields.Integer,
     "time_created": fields.DateTime,
     "time_updated": fields.DateTime
 })

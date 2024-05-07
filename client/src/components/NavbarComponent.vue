@@ -1,7 +1,7 @@
 <template>
     <div class="navbar bg-slate-100">
       <div class="flex-1">
-        <a class="btn btn-ghost text-xl">
+        <a class="">
           <img src="https://droneqube.com.tr/wp-content/uploads/2023/03/droneqube_logo-250x30.png"/>
         </a>
       </div>

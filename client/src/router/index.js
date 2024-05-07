@@ -21,12 +21,18 @@ const router = createRouter({
     {
       path: '/drones',
       name: 'drones',
-      component: () => import('../views/DroneListView.vue')
+      component: () => import('../views/DroneListView.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/tasks',
       name: 'tasks',
-      component: () => import('../views/TaskListView.vue')
+      component: () => import('../views/TaskListView.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/',

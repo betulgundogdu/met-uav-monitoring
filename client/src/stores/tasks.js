@@ -1,16 +1,19 @@
-import { getTasks, getTaskById } from "@/services/apiService"
+import { getTasks } from "@/services/apiService"
+import { defineStore } from 'pinia';
 
-export const tasks = {
-    loadTasks(context) {
-      return getTasks()
+export const useTaskStore = defineStore({
+  id: 'tasks',
+  state: () => ({
+      tasks: null
+  }),
+  actions: {
+    async loadTasks() {
+      getTasks()
         .then((response) => {
-          context.commit('setTasks', { tasks: response.data })
+          if (response.status === 200) {
+            this.tasks = response.data;
+          }
         })
     },
-    loadTask(context, { id }) {
-      return getTaskById(id)
-        .then((response) => {
-          context.commit('setTask', { tasks: response.data })
-        })
-    },
-}
+  }
+});

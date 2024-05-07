@@ -1,16 +1,19 @@
-import { getDrones, getDroneById } from "@/services/apiService"
+import { defineStore } from 'pinia';
+import { getDrones } from "@/services/apiService";
 
-export const drones = {
-    loadDrones(context) {
+export const useDroneStore = defineStore({
+  id: 'drones',
+  state: () => ({
+      drones: null,
+  }),
+  actions: {
+    async loadDrones() {
       return getDrones()
         .then((response) => {
-          context.commit('setDrones', { tasks: response.data })
+          if (response.status === 200) {
+            this.drones = response.data;
+          }
         })
-    },
-    loadDrone(context, { id }) {
-      return getDroneById(id)
-        .then((response) => {
-          context.commit('setDrone', { tasks: response.data })
-        })
-    },
-}
+    }
+  }
+});

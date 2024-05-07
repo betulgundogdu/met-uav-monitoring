@@ -1,41 +1,49 @@
 import axios from 'axios'
+import { useAuthStore } from '@/stores';
 
-const API_ENDPOINT = `http://localhost:5000/api`;
+
+const axiosClient = axios.create({
+  baseURL: `http://localhost:5000/api`
+});
+
+axiosClient.interceptors.request.use((config) => {
+  const authStore = useAuthStore();
+  config.headers.Authorization = `Bearer ${authStore.token}`;
+  return config;
+})
 
 export function getDrones() {
-  return axios.get(`${API_ENDPOINT}/drones/`)
+  return axiosClient.get(`/drones`)
 }
 
 export function createDrone(drone) {
-  return axios.post(`${API_ENDPOINT}/drones/`, drone)
+  return axiosClient.post(`/drones`, drone)
 }
 
 export function updateDrone(drone) {
-  return axios.put(`${API_ENDPOINT}/drones/${drone.id}`, drone)
+  return axiosClient.put(`/drones/${drone.id}`, drone)
 }
 
 export function getTasks() {
-  return axios.get(`${API_ENDPOINT}/tasks/`)
+  return axiosClient.get(`/tasks`)
 }
 
 export function getTaskById(id) {
-  return axios.get(`${API_ENDPOINT}/tasks/${id}`)
+  return axiosClient.get(`/tasks/${id}`)
 }
 
 export function createTask(task) {
-  return axios.post(`${API_ENDPOINT}/tasks/`, task)
+  return axiosClient.post(`/tasks`, task)
 }
 
 export function updateTask(task) {
-  return axios.put(`${API_ENDPOINT}/tasks/${task.id}`, task)
+  return axiosClient.put(`/tasks/${task.id}`, task)
 }
   
 export function login(user) {
-  return axios.post(`${API_ENDPOINT}/login`, user)
+  return axiosClient.post(`/login`, user)
 }
 
 export function register(user) {
-  return axios.post(`${API_ENDPOINT}/register`, user, {
-    withCredentials: true
-  });
+  return axiosClient.post(`/register`, user);
 }

@@ -16,20 +16,14 @@ authorizations = {
 }
 ns = Namespace("api", authorizations=authorizations)
 
-@ns.route('/')
-class Home(Resource):
-    def get(self):
-        return {"hello": "restx"}
-
 @ns.doc(security="jsonWebToken")
 @ns.route('/tasks')
 class TaskListAPI(Resource):
     method_decorators = [jwt_required()]
-
     @ns.marshal_list_with(task_model) # check returned data list
     def get(self):
-        return Task.query.filter_by(user=current_user).all()
-    
+        #return Task.query.filter_by(user=current_user).all()
+        return Task.query.all()
     @ns.expect(task_input_model) # check expected data
     @ns.marshal_with(task_model) # check returned data 
     def post(self):
@@ -41,6 +35,7 @@ class TaskListAPI(Resource):
 @ns.doc(security="jsonWebToken")
 @ns.route('/tasks/<int:id>')
 class TaskAPI(Resource):
+    method_decorators = [jwt_required()]
     @ns.marshal_with(task_model)
     def get(self, id):
         task = Task.query.get(id)
@@ -66,6 +61,7 @@ class TaskAPI(Resource):
 @ns.doc(security="jsonWebToken")
 @ns.route('/drones')
 class DroneListAPI(Resource):
+    method_decorators = [jwt_required()]
     @ns.marshal_list_with(drone_model)
     def get(self):
         return Drone.query.all()
@@ -81,6 +77,7 @@ class DroneListAPI(Resource):
 @ns.doc(security="jsonWebToken")
 @ns.route('/drones/<int:id>')
 class DroneAPI(Resource):
+    method_decorators = [jwt_required()]
     @ns.marshal_with(drone_model)
     def get(self, id):
         drone = Drone.query.get(id)
@@ -104,6 +101,7 @@ class DroneAPI(Resource):
 @ns.doc(security="jsonWebToken")
 @ns.route('/task_drone')
 class TaskDroneListAPI(Resource):
+    method_decorators = [jwt_required()]
     @ns.marshal_list_with(task_drone_model)
     def get(self):
         return TaskDrone.query.all()
@@ -119,6 +117,7 @@ class TaskDroneListAPI(Resource):
 @ns.doc(security="jsonWebToken")
 @ns.route('/task_drone/<int:id>')
 class TaskDroneAPI(Resource):
+    method_decorators = [jwt_required()]
     @ns.marshal_list_with(task_drone_model)
     def get(self):
         return TaskDrone.query.get(id)
